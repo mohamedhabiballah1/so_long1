@@ -6,7 +6,7 @@
 /*   By: mhabib-a <mhabib-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 14:45:33 by mhabib-a          #+#    #+#             */
-/*   Updated: 2023/02/17 15:29:04 by mhabib-a         ###   ########.fr       */
+/*   Updated: 2023/02/22 13:45:36 by mhabib-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void    ft_free(char **str)
     }
     free(str);
 }
+
 int ft_way(char *str)
 {
     char **tmp;

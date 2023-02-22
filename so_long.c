@@ -6,7 +6,7 @@
 /*   By: mhabib-a <mhabib-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 10:53:10 by mhabib-a          #+#    #+#             */
-/*   Updated: 2023/02/21 13:37:40 by mhabib-a         ###   ########.fr       */
+/*   Updated: 2023/02/22 16:40:20 by mhabib-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,19 +167,14 @@ void    place_exit(t_data data, int k, int m)
     mlx_put_image_to_window(data.mlx, data.window, data.img, k, m);
 }
 
-void    place_map(char **map)
-{
-    t_data data;
-    t_map maps;
 
-    maps.x = height(map);
-    maps.y = width(map);
+
+void    place_map(char **map, t_data data)
+{
     int k;
     int m = 0;
     int i = 0;
     int j = 0;
-    data.mlx = mlx_init();
-    data.window = mlx_new_window(data.mlx, maps.y, maps.x, "So_long");
     while (map[i])
     {
         k = 0;
@@ -209,6 +204,21 @@ void    place_map(char **map)
         m = m + 50;
         i++;
     }
+}
+
+void    ft_place(t_map *map)
+{
+    t_data data;
+    map->x = height(map->tmp);
+    map->y = width(map->tmp);
+    int k;
+    int m = 0;
+    int i = 0;
+    int j = 0;
+    data.mlx = mlx_init();
+    data.window = mlx_new_window(data.mlx, map->y, map->x, "So_long");
+    place_map(map->tmp, data);
+    mlx_key_hook(data.window, key_hook, &data);
     mlx_loop(data.mlx);
 }
 
@@ -216,6 +226,7 @@ int main(int ac, char **av)
 {
     char str[] = "map2.ber";
     char **map;
+    t_map *maps;
     int i;
 
     map = ft_open(str);
@@ -224,5 +235,7 @@ int main(int ac, char **av)
         write(2, "Error\n", 6);
     if (ft_way(str) != 0)
         write(2, "", 0);
-    place_map(map);
+    maps = malloc(sizeof(t_map));
+    maps->tmp = ft_open(str);
+    ft_place(maps);
 }
