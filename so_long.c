@@ -6,7 +6,7 @@
 /*   By: mhabib-a <mhabib-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 10:53:10 by mhabib-a          #+#    #+#             */
-/*   Updated: 2023/02/22 16:40:20 by mhabib-a         ###   ########.fr       */
+/*   Updated: 2023/02/28 11:21:35 by mhabib-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@ int lines(int fd)
 
     i = 0;
     str = get_next_line(fd);
-    while (str)
+    while(str[0] != '1')
+        str = get_next_line(fd);
+    while(str && str[0] == '1')
     {
         i++;
         str = get_next_line(fd);
@@ -76,12 +78,12 @@ int height(char **map)
 int width(char **map)
 {
     int i;
-    
+
     i = ft_strlen(map[0]);
     return ((i - 1) * 50);
 }
 
-void    first_wall(t_data data, char *map)
+void    first_wall(t_data *data, char *map)
 {
     int j;
     int k;
@@ -94,22 +96,22 @@ void    first_wall(t_data data, char *map)
     {
         if (j == 0)
         {
-            data.img = mlx_xpm_file_to_image(data.mlx, "./wall/left.xpm", &data.w, &data.h);
-            mlx_put_image_to_window(data.mlx, data.window, data.img, k, m);
+            data->img = mlx_xpm_file_to_image(data->mlx, "./wall/left.xpm", &data->w, &data->h);
+            mlx_put_image_to_window(data->mlx, data->window, data->img, k, m);
         }
         else
         {
-            data.img = mlx_xpm_file_to_image(data.mlx, "./wall/midlle.xpm", &data.w, &data.h);
-            mlx_put_image_to_window(data.mlx, data.window, data.img, k, m);
+            data->img = mlx_xpm_file_to_image(data->mlx, "./wall/midlle.xpm", &data->w, &data->h);
+            mlx_put_image_to_window(data->mlx, data->window, data->img, k, m);
         }
         k = k + 50;
         j++;
     }
-    data.img = mlx_xpm_file_to_image(data.mlx, "./wall/right.xpm", &data.w, &data.h);
-    mlx_put_image_to_window(data.mlx, data.window, data.img, k, m);
+    data->img = mlx_xpm_file_to_image(data->mlx, "./wall/right.xpm", &data->w, &data->h);
+    mlx_put_image_to_window(data->mlx, data->window, data->img, k, m);
 }
 
-void    last_wall(t_data data, char *map, int m)
+void    last_wall(t_data *data, char *map, int m)
 {
     int j;
     int k;
@@ -120,122 +122,150 @@ void    last_wall(t_data data, char *map, int m)
     {
         if (j == 0)
         {
-            data.img = mlx_xpm_file_to_image(data.mlx, "./wall/last_first.xpm", &data.w, &data.h);
-            mlx_put_image_to_window(data.mlx, data.window, data.img, k, m);
+            data->img = mlx_xpm_file_to_image(data->mlx, "./wall/last_first.xpm", &data->w, &data->h);
+            mlx_put_image_to_window(data->mlx, data->window, data->img, k, m);
         }
         else
         {
-            data.img = mlx_xpm_file_to_image(data.mlx, "./wall/last_mid.xpm", &data.w, &data.h);
-            mlx_put_image_to_window(data.mlx, data.window, data.img, k, m);
+            data->img = mlx_xpm_file_to_image(data->mlx, "./wall/last_mid.xpm", &data->w, &data->h);
+            mlx_put_image_to_window(data->mlx, data->window, data->img, k, m);
         }
         k = k + 50;
         j++;
     }
-    data.img = mlx_xpm_file_to_image(data.mlx, "./wall/last_right.xpm", &data.w, &data.h);
-    mlx_put_image_to_window(data.mlx, data.window, data.img, k, m);
+    data->img = mlx_xpm_file_to_image(data->mlx, "./wall/last_right.xpm", &data->w, &data->h);
+    mlx_put_image_to_window(data->mlx, data->window, data->img, k, m);
 }
 
-void    wall(t_data data, int k, int m, int j)
+void    wall(t_data *data, int k, int m, int j)
 {
     if (j == 0)
     {
-        data.img = mlx_xpm_file_to_image(data.mlx, "./wall/first.xpm", &data.w, &data.h);
-        mlx_put_image_to_window(data.mlx, data.window, data.img, k, m);
+        data->img = mlx_xpm_file_to_image(data->mlx, "./wall/first.xpm", &data->w, &data->h);
+        mlx_put_image_to_window(data->mlx, data->window, data->img, k, m);
     }
     else
     {
-        data.img = mlx_xpm_file_to_image(data.mlx, "./wall/wall.xpm", &data.w, &data.h);
-        mlx_put_image_to_window(data.mlx, data.window, data.img, k, m);
+        data->img = mlx_xpm_file_to_image(data->mlx, "./wall/wall.xpm", &data->w, &data->h);
+        mlx_put_image_to_window(data->mlx, data->window, data->img, k, m);
     }
 }
 
-void    place_player(t_data data, int k, int m)
+void    place_player(t_data *data, int k, int m)
 {
-    data.img = mlx_xpm_file_to_image(data.mlx, "./player/right_ghost.xpm", &data.w, &data.h);
-    mlx_put_image_to_window(data.mlx, data.window, data.img, k, m);
+    //
+    data->img = mlx_xpm_file_to_image(data->mlx, "./player/right_ghost.xpm", &data->w, &data->h);
+    mlx_put_image_to_window(data->mlx, data->window, data->img, k, m);
 }
 
-void    place_coin(t_data data, int k, int m)
+void    place_coin(t_data *data, int k, int m)
 {
-    data.img = mlx_xpm_file_to_image(data.mlx, "coin.xpm", &data.w, &data.h);
-    mlx_put_image_to_window(data.mlx, data.window, data.img, k, m);
+    data->img = mlx_xpm_file_to_image(data->mlx, "coin.xpm", &data->w, &data->h);
+    mlx_put_image_to_window(data->mlx, data->window, data->img, k, m);
 }
 
-void    place_exit(t_data data, int k, int m)
+void    place_exit(t_data *data, int k, int m)
 {
-    data.img = mlx_xpm_file_to_image(data.mlx, "./door/closed.xpm", &data.w, &data.h);
-    mlx_put_image_to_window(data.mlx, data.window, data.img, k, m);
+    if (ft_check_character(data->tmp, 'C') == 0)
+        data->img = mlx_xpm_file_to_image(data->mlx, "./door/opened.xpm", &data->w, &data->h);
+    else
+        data->img = mlx_xpm_file_to_image(data->mlx, "./door/closed.xpm", &data->w, &data->h);
+    mlx_put_image_to_window(data->mlx, data->window, data->img, k, m);
 }
 
-
-
-void    place_map(char **map, t_data data)
+void    enemy(t_data *data, int k, int m)
 {
-    int k;
-    int m = 0;
+    data->img = mlx_xpm_file_to_image(data->mlx, "./enemy/enemy.xpm", &data->w, &data->h);
+    mlx_put_image_to_window(data->mlx, data->window, data->img, k, m);
+}
+
+void    places(t_data *data, int k, int m, int i, int j)
+{
+    if (data->tmp[i][j] == 'N')
+        enemy(data, k, m);
+    if (data->tmp[i][j] == '1')
+        wall(data, k, m, j);
+    else if (data->tmp[i][j] == 'P')
+        place_player(data, k, m);
+    else if (data->tmp[i][j] == 'C')
+        place_coin(data, k, m);
+    else if (data->tmp[i][j] == 'E')
+        place_exit(data, k, m);
+}
+
+void    place_map(t_data *data)
+{
     int i = 0;
+    int m = 0;
+    int k = 0;
     int j = 0;
-    while (map[i])
+
+    while (data->tmp[i])
     {
         k = 0;
         j = 0;
         if (i == 0)
-            first_wall(data, map[i]);
-        else if (map[i + 1] == NULL)
-            last_wall(data, map[i], m);
+            first_wall(data, data->tmp[i]);
+        else if (data->tmp[i + 1] == NULL)
+            last_wall(data, data->tmp[i], m);
         else
         {
-            while (map[i][j + 2])
+            while (data->tmp[i][j])
             {
-                if (map[i][j] == '1')
-                    wall(data, k, m, j);
-                else if (map[i][j] == 'P')
-                    place_player(data, k, m);
-                if (map[i][j] == 'C')
-                    place_coin(data, k, m);
-                if (map[i][j] == 'E')
-                    place_exit(data, k, m);
-                k = k + 50;
+                places(data, k, m, i, j);
                 j++;
+                k += 50;
             }
-            data.img = mlx_xpm_file_to_image(data.mlx, "./wall/last.xpm", &data.w, &data.h);
-            mlx_put_image_to_window(data.mlx, data.window, data.img, k, m);
+            data->img = mlx_xpm_file_to_image(data->mlx, "./wall/right.xpm", &data->w, &data->h);
+            mlx_put_image_to_window(data->mlx, data->window, data->img, k, m);
         }
-        m = m + 50;
         i++;
+        m += 50;
     }
 }
 
-void    ft_place(t_map *map)
+int   place_loop(t_data *data)
 {
-    t_data data;
-    map->x = height(map->tmp);
-    map->y = width(map->tmp);
+    mlx_clear_window(data->mlx, data->window);
+    place_map(data);
+    return (0);
+}
+
+void    ft_place(t_data *data)
+{
+    //place_map(data);
+    data->height = height(data->tmp);
+    data->width = width(data->tmp);
     int k;
     int m = 0;
     int i = 0;
     int j = 0;
-    data.mlx = mlx_init();
-    data.window = mlx_new_window(data.mlx, map->y, map->x, "So_long");
-    place_map(map->tmp, data);
-    mlx_key_hook(data.window, key_hook, &data);
-    mlx_loop(data.mlx);
+    data->mlx = mlx_init();
+    data->window = mlx_new_window(data->mlx, data->width, data->height, "So_long");
+    place_map(data);
+    mlx_loop_hook(data->mlx, &place_loop, data);
+    mlx_key_hook(data->window, &key_hook, data);
+    mlx_loop(data->mlx);
 }
 
 int main(int ac, char **av)
 {
-    char str[] = "map2.ber";
+    char str[] = "map3.ber";
     char **map;
-    t_map *maps;
-    int i;
+    t_data *data;
 
     map = ft_open(str);
-    i = ft_check(map);
-    if (i != 0)
+    if (ft_check(map) != 0)
+    {
         write(2, "Error\n", 6);
+        exit(1);
+    }
     if (ft_way(str) != 0)
-        write(2, "", 0);
-    maps = malloc(sizeof(t_map));
-    maps->tmp = ft_open(str);
-    ft_place(maps);
+    {
+        write(2, "No way to some collectibles", 27);
+        exit (1);
+    }
+    data = malloc(sizeof(t_data));
+    data->tmp = ft_open(str);
+    ft_place(data);
 }

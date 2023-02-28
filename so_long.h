@@ -6,7 +6,7 @@
 /*   By: mhabib-a <mhabib-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 10:53:19 by mhabib-a          #+#    #+#             */
-/*   Updated: 2023/02/22 16:16:55 by mhabib-a         ###   ########.fr       */
+/*   Updated: 2023/02/28 11:17:36 by mhabib-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,27 @@ typedef struct so_long
     void *mlx;
     void *window;
     void *img;
+    char **tmp;
     int w;
     int h;
-}   t_data;
-
-typedef struct map
-{
-    char **tmp;
+    int height;
+    int width;
     int x;
     int y;
     int i;
     int j;
-}   t_map;
+    int n_x;
+    int n_y;
+    int mouves;
+}   t_data;
+
+typedef struct map
+{
+    int i;
+    int j;
+    int k;
+    int m;
+}   s_data;
 
 # include<stdio.h>
 # include<string.h>
@@ -54,9 +63,7 @@ int     ft_check_length_map(char **map);
 int     ft_check(char **map);
 int     ft_check_top_down(char **map);
 int     ft_check_left_right(char **map);
-int     ft_check_collectible(char **map);
-int     ft_check_player(char **map);
-int     ft_check_exit(char **map);
+int     ft_check_character(char **map, char c);
 int     ft_size(char **map);
 int     ft_way(char *str);
 char    **ft_open(char *str);
@@ -65,12 +72,16 @@ int     lines(int fd);
 void    ft_free(char **str);
 int     ft_check_path(char **tmp);
 void    flood_fill(char **map, int x, int y, int lst, int len);
-int     key_hook(int keycode, t_data *data, t_map *map);
-void    place_coin(t_data data, int k, int m);
-void    place_exit(t_data data, int k, int m);
-void    place_player(t_data data, int k, int m);
-void    wall(t_data data, int k, int m, int j);
-void    last_wall(t_data data, char *map, int m);
-void    first_wall(t_data data, char *map);
-void    place_map(char **map, t_data data);
+int     key_hook(int keycode, t_data *data);
+void    place_coin(t_data *data, int k, int m);
+void    place_exit(t_data *data, int k, int m);
+void    place_player(t_data *data, int k, int m);
+void    wall(t_data *data, int k, int m, int j);
+void    last_wall(t_data *data, char *map, int m);
+void    first_wall(t_data *data, char *map);
+void    place_map(t_data *data);
+int     height(char **map);
+int     width(char **map);
+int     ft_check_map(char **map);
+//void    loop_hook(t_data *data);
 #endif
